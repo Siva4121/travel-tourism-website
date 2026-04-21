@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Contact – TravelIndia Tourism{% endblock %}
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <span class="eyebrow">Contact</span>
+        <h1>We'd love to hear from you</h1>
+        <p>Questions about a booking or a custom trip? Our team replies within a few hours.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container two-col">
+        <div class="contact-info">
+            <h3>Reach us</h3>
+            <p><i class="fa-solid fa-location-dot"></i> 221B Connaught Place, New Delhi, India</p>
+            <p><i class="fa-solid fa-phone"></i> +91 98765 43210</p>
+            <p><i class="fa-solid fa-envelope"></i> hello@travelindia.com</p>
+            <p><i class="fa-solid fa-clock"></i> Mon – Sat, 9am – 7pm IST</p>
+        </div>
+        <form class="card form-card" onsubmit="event.preventDefault(); alert('Thanks! We will get back to you shortly.'); this.reset();">
+            <h3>Send us a message</h3>
+            <label>Name<input type="text" required></label>
+            <label>Email<input type="email" required></label>
+            <label>Message<textarea rows="5" required></textarea></label>
+            <button class="btn btn-primary">Send Message</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h2>My profile</h2>
+        <div class="two-col">
+            <div class="card pad">
+                <h4>Account</h4>
+                <p><strong>{{ user.get_full_name|default:user.username }}</strong></p>
+                <p class="muted">{{ user.email }}</p>
+                <p class="muted">Joined {{ user.date_joined|date:"d M Y" }}</p>
+                <a href="{% url 'bookings:list' %}" class="btn btn-outline btn-sm">View my bookings</a>
+            </div>
+            <form method="post" class="card pad">
+                {% csrf_token %}
+                <h4>Contact details</h4>
+                {% for field in form %}
+                    <label>{{ field.label }}{{ field }}{% if field.errors %}<div class="field-error">{{ field.errors|join:", " }}</div>{% endif %}</label>
+                {% endfor %}
+                <button class="btn btn-primary">Save changes</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}TravelIndia Tourism – Discover Incredible Journeys{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-inner">
+        <div class="hero-text">
+            <span class="eyebrow">Explore Incredible India &amp; Beyond</span>
+            <h1 class="display">Plan Unforgettable <span>Journeys</span> with Confidence</h1>
+            <p class="lead">Curated tour packages, seamless flight &amp; hotel bookings, and a 24×7 travel chatbot to plan your perfect itinerary.</p>
+            <div class="hero-actions">
+                <a href="{% url 'packages:list' %}" class="btn btn-primary btn-lg"><i class="fa-solid fa-suitcase-rolling"></i> Explore Packages</a>
+                <a href="{% url 'chatbot:chat' %}" class="btn btn-ghost btn-lg"><i class="fa-solid fa-robot"></i> Talk to Chatbot</a>
+            </div>
+            <div class="hero-stats">
+                <div><strong>50+</strong><span>Destinations</span></div>
+                <div><strong>1,200+</strong><span>Happy Travelers</span></div>
+                <div><strong>4.9★</strong><span>Average Rating</span></div>
+            </div>
+        </div>
+        <form class="search-card" action="{% url 'packages:list' %}" method="get">
+            <h3><i class="fa-solid fa-magnifying-glass"></i> Find your next trip</h3>
+            <label>
+                <span>Destination</span>
+                <input type="text" name="destination" placeholder="e.g. Kerala, Goa, Rajasthan">
+            </label>
+            <label>
+                <span>Search</span>
+                <input type="text" name="q" placeholder="Package / theme / city">
+            </label>
+            <button type="submit" class="btn btn-primary btn-block">Search Packages</button>
+            <div class="search-quick">
+                <a href="{% url 'flights:list' %}"><i class="fa-solid fa-plane"></i> Flights</a>
+                <a href="{% url 'hotels:list' %}"><i class="fa-solid fa-hotel"></i> Hotels</a>
+                <a href="{% url 'packages:list' %}"><i class="fa-solid fa-umbrella-beach"></i> Packages</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="section features">
+    <div class="container features-grid">
+        <div class="feature"><i class="fa-solid fa-shield-heart"></i><h4>Trusted Bookings</h4><p>Verified hotels, flights, and packages with secure reservations.</p></div>
+        <div class="feature"><i class="fa-solid fa-wand-magic-sparkles"></i><h4>Curated Experiences</h4><p>Hand-picked itineraries designed by local travel experts.</p></div>
+        <div class="feature"><i class="fa-solid fa-comments"></i><h4>AI Travel Chatbot</h4><p>Ask "show flights" or "list hotels" for instant recommendations.</p></div>
+        <div class="feature"><i class="fa-solid fa-headset"></i><h4>24×7 Support</h4><p>We're with you before, during, and after your trip.</p></div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow">Top Destinations</span>
+            <h2>Popular places to visit</h2>
+            <p class="muted">From Himalayan escapes to tropical beaches – discover your next adventure.</p>
+        </div>
+        <div class="destinations-grid">
+            {% for d in destinations %}
+                <a href="{% url 'packages:list' %}?destination={{ d.name }}" class="destination-card" style="background-image: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.65)), url('{% if d.image %}{{ d.image.url }}{% else %}https://source.unsplash.com/600x600/?{{ d.name|urlencode }},travel{% endif %}')">
+                    <div class="destination-meta">
+                        <h4>{{ d.name }}</h4>
+                        <span>{{ d.country }}</span>
+                    </div>
+                </a>
+            {% empty %}
+                <p class="muted">Destinations will appear here once added by the admin.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section bg-soft">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow">Featured Packages</span>
+            <h2>Holidays you'll love</h2>
+            <p class="muted">Best-selling itineraries, fully customizable for your dates and group.</p>
+        </div>
+        <div class="cards-grid">
+            {% for p in featured_packages %}
+                <article class="card">
+                    <div class="card-media" style="background-image: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.25)), url('{% if p.image %}{{ p.image.url }}{% else %}https://source.unsplash.com/600x400/?{{ p.destination.name|default:p.name|urlencode }},travel{% endif %}')">
+                        <span class="badge">{{ p.duration_label }}</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>{{ p.name }}</h4>
+                        <p class="muted"><i class="fa-solid fa-location-dot"></i> {{ p.destination.name|default:p.city|default:"Multiple cities" }}</p>
+                        <p class="clamp-2">{{ p.description|default:"Experience a handpicked itinerary with curated stays, sightseeing, and transfers." }}</p>
+                        <div class="card-foot">
+                            <span class="price">₹{{ p.price|floatformat:0 }}<small>/ person</small></span>
+                            <a href="{% url 'packages:detail' p.pk %}" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <p class="muted">No packages published yet. Check back soon!</p>
+            {% endfor %}
+        </div>
+        <div class="center mt-24"><a href="{% url 'packages:list' %}" class="btn btn-outline">View all packages <i class="fa-solid fa-arrow-right"></i></a></div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="two-col">
+            <div>
+                <div class="section-head left">
+                    <span class="eyebrow">Stay &amp; Fly</span>
+                    <h2>Top hotels for your stay</h2>
+                </div>
+                <div class="mini-list">
+                    {% for h in top_hotels %}
+                        <a href="{% url 'hotels:detail' h.pk %}" class="mini-row">
+                            <div class="mini-icon"><i class="fa-solid fa-hotel"></i></div>
+                            <div class="mini-meta">
+                                <strong>{{ h.name }}</strong>
+                                <span>{{ h.city }} · {{ h.star_rating }}★</span>
+                            </div>
+                            <span class="mini-price">₹{{ h.price_per_night|floatformat:0 }}</span>
+                        </a>
+                    {% empty %}
+                        <p class="muted">No hotels yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>
+                <div class="section-head left">
+                    <span class="eyebrow">Upcoming Flights</span>
+                    <h2>Pick your next flight</h2>
+                </div>
+                <div class="mini-list">
+                    {% for f in upcoming_flights %}
+                        <a href="{% url 'flights:detail' f.pk %}" class="mini-row">
+                            <div class="mini-icon"><i class="fa-solid fa-plane"></i></div>
+                            <div class="mini-meta">
+                                <strong>{{ f.airline }} {{ f.flight_number }}</strong>
+                                <span>{{ f.origin }} → {{ f.destination }} · {{ f.departure|date:"d M, H:i" }}</span>
+                            </div>
+                            <span class="mini-price">₹{{ f.price|floatformat:0 }}</span>
+                        </a>
+                    {% empty %}
+                        <p class="muted">No flights yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section bg-soft">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow">What travelers say</span>
+            <h2>Loved by thousands of happy travelers</h2>
+        </div>
+        <div class="testimonials">
+            <div class="testimonial">
+                <p>"Our Kerala backwaters trip was magical. Everything from hotels to transfers was seamless."</p>
+                <div class="who"><strong>Ananya Rao</strong><span>Bengaluru</span></div>
+                <div class="stars">★★★★★</div>
+            </div>
+            <div class="testimonial">
+                <p>"The chatbot helped me find affordable flights in seconds. Super handy!"</p>
+                <div class="who"><strong>Rahul Verma</strong><span>Mumbai</span></div>
+                <div class="stars">★★★★★</div>
+            </div>
+            <div class="testimonial">
+                <p>"Great Rajasthan package with luxurious havelis and zero hassle. Highly recommended."</p>
+                <div class="who"><strong>Sneha Iyer</strong><span>Chennai</span></div>
+                <div class="stars">★★★★★</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-banner">
+    <div class="container cta-inner">
+        <div>
+            <h2>Ready to plan your dream trip?</h2>
+            <p>Sign up and our chatbot will help you build a custom itinerary in minutes.</p>
+        </div>
+        {% if user.is_authenticated %}
+            <a href="{% url 'packages:list' %}" class="btn btn-primary btn-lg">Browse Packages</a>
+        {% else %}
+            <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg">Create Free Account</a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

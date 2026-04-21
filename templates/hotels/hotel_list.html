@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Hotels – TravelIndia Tourism{% endblock %}
+{% block content %}
+<section class="page-hero page-hero-sm">
+    <div class="container">
+        <span class="eyebrow">Hotels</span>
+        <h1>Stays for every style</h1>
+        <p>From luxury resorts to cozy boutique stays — find the perfect room.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <form class="filter-bar" method="get">
+            <input type="text" name="city" value="{{ city }}" placeholder="City">
+            <input type="text" name="q" value="{{ q }}" placeholder="Hotel name / amenities">
+            <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+        </form>
+        <div class="cards-grid">
+            {% for h in hotels %}
+                <article class="card">
+                    <div class="card-media" style="background-image: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.25)), url('{% if h.image %}{{ h.image.url }}{% else %}https://source.unsplash.com/600x400/?{{ h.city|urlencode }},hotel{% endif %}')">
+                        <span class="badge">{{ h.star_rating }}★</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>{{ h.name }}</h4>
+                        <p class="muted"><i class="fa-solid fa-location-dot"></i> {{ h.city }}, {{ h.country }}</p>
+                        <p class="clamp-2">{{ h.description|default:"Comfortable stay with modern amenities and warm hospitality." }}</p>
+                        <div class="card-foot">
+                            <span class="price">₹{{ h.price_per_night|floatformat:0 }}<small>/ night</small></span>
+                            <div class="row-gap-8">
+                                <a href="{% url 'hotels:detail' h.pk %}" class="btn btn-outline btn-sm">Details</a>
+                                <a href="{% url 'bookings:book_hotel' h.pk %}" class="btn btn-primary btn-sm">Book</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <p class="muted">No hotels match your filters.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

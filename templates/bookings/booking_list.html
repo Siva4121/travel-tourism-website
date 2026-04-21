@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}My Bookings{% endblock %}
+{% block content %}
+<section class="page-hero page-hero-sm">
+    <div class="container">
+        <span class="eyebrow">My Bookings</span>
+        <h1>Your trip history</h1>
+        <p>All your flights, hotels, and packages in one place.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        {% if bookings %}
+            <div class="table-card">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>#</th><th>Type</th><th>Item</th><th>Travelers</th><th>Dates</th><th>Total</th><th>Status</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        {% for b in bookings %}
+                            <tr>
+                                <td>#{{ b.pk }}</td>
+                                <td><span class="pill pill-{{ b.booking_type }}">{{ b.get_booking_type_display }}</span></td>
+                                <td>{{ b.item_label }}</td>
+                                <td>{{ b.travelers }}</td>
+                                <td>
+                                    {% if b.booking_type == 'hotel' %}
+                                        {{ b.check_in|date:"d M" }} – {{ b.check_out|date:"d M Y" }}
+                                    {% else %}
+                                        {{ b.travel_date|date:"d M Y"|default:"—" }}
+                                    {% endif %}
+                                </td>
+                                <td>₹{{ b.total_price|floatformat:0 }}</td>
+                                <td><span class="status status-{{ b.status }}">{{ b.get_status_display }}</span></td>
+                                <td>
+                                    <a href="{% url 'bookings:detail' b.pk %}" class="btn btn-outline btn-xs">View</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <i class="fa-solid fa-suitcase-rolling"></i>
+                <h3>No bookings yet</h3>
+                <p>Browse packages, flights, or hotels to plan your first trip.</p>
+                <a href="{% url 'packages:list' %}" class="btn btn-primary">Explore packages</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

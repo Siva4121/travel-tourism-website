@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}{{ package.name }} – Package{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container two-col">
+        <div class="card pad">
+            <span class="pill">{{ package.duration_label }}</span>
+            <h2>{{ package.name }}</h2>
+            <p class="muted"><i class="fa-solid fa-location-dot"></i> {{ package.destination.name|default:package.city|default:"Multi-city" }}</p>
+            <p>{{ package.description|default:"Experience a handpicked itinerary with curated stays, sightseeing, and transfers." }}</p>
+
+            {% if package.include_list %}
+                <h4>What's included</h4>
+                <ul class="check-list">
+                    {% for item in package.include_list %}<li>{{ item }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if package.itinerary_list %}
+                <h4>Day-wise itinerary</h4>
+                <ol class="itinerary">
+                    {% for day in package.itinerary_list %}<li>{{ day }}</li>{% endfor %}
+                </ol>
+            {% endif %}
+
+            <p class="muted">Slots available: <strong>{{ package.slots_available }}</strong></p>
+        </div>
+        <aside class="card pad sticky">
+            <span class="muted">Starting from</span>
+            <div class="price big">₹{{ package.price|floatformat:0 }} <small>/ person</small></div>
+            <a href="{% url 'bookings:book_package' package.pk %}" class="btn btn-primary btn-block btn-lg">Book this package</a>
+            <p class="muted center">Customizable for your group size and travel dates.</p>
+        </aside>
+    </div>
+</section>
+{% endblock %}

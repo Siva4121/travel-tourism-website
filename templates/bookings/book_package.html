@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Book Package – {{ package.name }}{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container two-col">
+        <form method="post" class="card pad">
+            {% csrf_token %}
+            <h2>Book tour package</h2>
+            <p class="muted">{{ package.name }} · {{ package.duration_label }}</p>
+            {% for field in form %}
+                <label>{{ field.label }}{{ field }}{% if field.errors %}<div class="field-error">{{ field.errors|join:", " }}</div>{% endif %}</label>
+            {% endfor %}
+            <button class="btn btn-primary btn-lg btn-block">Confirm booking</button>
+        </form>
+        <aside class="card pad">
+            <h4>Package summary</h4>
+            <p><span class="muted">Per person</span><br><strong>₹{{ package.price|floatformat:0 }}</strong></p>
+            <p class="muted">Slots available: <strong>{{ package.slots_available }}</strong></p>
+            <p class="muted">Customizable dates &amp; group size.</p>
+        </aside>
+    </div>
+</section>
+{% endblock %}
