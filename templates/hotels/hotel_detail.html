@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}{{ hotel.name }} – Hotel Details{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container two-col">
+        <div class="card pad">
+            <h2>{{ hotel.name }}</h2>
+            <p class="muted"><i class="fa-solid fa-location-dot"></i> {{ hotel.address|default:hotel.city }}, {{ hotel.country }}</p>
+            <p><span class="pill">{{ hotel.star_rating }}★ rating</span></p>
+            <p>{{ hotel.description|default:"Comfortable stay with modern amenities and warm hospitality." }}</p>
+            {% if hotel.amenity_list %}
+                <h4>Amenities</h4>
+                <div class="chips">
+                    {% for a in hotel.amenity_list %}<span class="chip"><i class="fa-solid fa-check"></i> {{ a }}</span>{% endfor %}
+                </div>
+            {% endif %}
+            <p class="muted">Rooms available: <strong>{{ hotel.rooms_available }}</strong></p>
+        </div>
+        <aside class="card pad sticky">
+            <span class="muted">Starting from</span>
+            <div class="price big">₹{{ hotel.price_per_night|floatformat:0 }} <small>/ night</small></div>
+            <a href="{% url 'bookings:book_hotel' hotel.pk %}" class="btn btn-primary btn-block btn-lg">Reserve room</a>
+            <p class="muted center">Free cancellation on most rooms.</p>
+        </aside>
+    </div>
+</section>
+{% endblock %}

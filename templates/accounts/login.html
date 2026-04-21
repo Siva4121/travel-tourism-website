@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Login – TravelIndia Tourism{% endblock %}
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-card">
+            <h2>Welcome back</h2>
+            <p class="muted">Log in to manage bookings and chat with our travel assistant.</p>
+            <form method="post">
+                {% csrf_token %}
+                {% if form.non_field_errors %}<div class="alert alert-error">{{ form.non_field_errors }}</div>{% endif %}
+                <label>Username{{ form.username }}</label>
+                <label>Password{{ form.password }}</label>
+                {% if form.errors and not form.non_field_errors %}<div class="alert alert-error">Invalid username or password.</div>{% endif %}
+                <button class="btn btn-primary btn-block">Log in</button>
+            </form>
+            <p class="muted center mt-16">New here? <a href="{% url 'accounts:register' %}">Create an account</a></p>
+        </div>
+    </div>
+</section>
+{% endblock %}

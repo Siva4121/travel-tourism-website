@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}{{ flight.airline }} {{ flight.flight_number }} – Flight Details{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container two-col">
+        <div class="card pad">
+            <span class="pill">{{ flight.get_travel_class_display }}</span>
+            <h2>{{ flight.airline }} <small class="muted">· {{ flight.flight_number }}</small></h2>
+            <div class="flight-route big">
+                <div><strong>{{ flight.origin }}</strong><span>{{ flight.departure|date:"d M Y, H:i" }}</span></div>
+                <div class="arrow"><i class="fa-solid fa-plane"></i></div>
+                <div><strong>{{ flight.destination }}</strong><span>{{ flight.arrival|date:"d M Y, H:i" }}</span></div>
+            </div>
+            <p class="muted">Seats available: <strong>{{ flight.seats_available }}</strong></p>
+            <p class="muted">Class: <strong>{{ flight.get_travel_class_display }}</strong></p>
+        </div>
+        <aside class="card pad sticky">
+            <span class="muted">Starting from</span>
+            <div class="price big">₹{{ flight.price|floatformat:0 }}</div>
+            <a href="{% url 'bookings:book_flight' flight.pk %}" class="btn btn-primary btn-block btn-lg">Book this flight</a>
+            <p class="muted center">Free cancellation up to 24 hours before departure.</p>
+        </aside>
+    </div>
+</section>
+{% endblock %}

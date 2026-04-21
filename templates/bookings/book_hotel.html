@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Book Hotel – {{ hotel.name }}{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container two-col">
+        <form method="post" class="card pad">
+            {% csrf_token %}
+            <h2>Reserve a room</h2>
+            <p class="muted">{{ hotel.name }} · {{ hotel.city }}</p>
+            {% for field in form %}
+                <label>{{ field.label }}{{ field }}{% if field.errors %}<div class="field-error">{{ field.errors|join:", " }}</div>{% endif %}</label>
+            {% endfor %}
+            <button class="btn btn-primary btn-lg btn-block">Confirm reservation</button>
+        </form>
+        <aside class="card pad">
+            <h4>Fare summary</h4>
+            <p><span class="muted">Per night</span><br><strong>₹{{ hotel.price_per_night|floatformat:0 }}</strong></p>
+            <p class="muted">Rooms available: <strong>{{ hotel.rooms_available }}</strong></p>
+            <p class="muted">Taxes &amp; service charges included.</p>
+        </aside>
+    </div>
+</section>
+{% endblock %}

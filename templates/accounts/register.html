@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Register – TravelIndia Tourism{% endblock %}
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-card wide">
+            <h2>Create your free account</h2>
+            <p class="muted">Join TravelIndia Tourism and start planning your dream trip.</p>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <label>
+                        {{ field.label }}
+                        {{ field }}
+                        {% if field.help_text %}<small class="muted">{{ field.help_text|safe }}</small>{% endif %}
+                        {% if field.errors %}<div class="field-error">{{ field.errors|join:", " }}</div>{% endif %}
+                    </label>
+                {% endfor %}
+                <button class="btn btn-primary btn-block">Create Account</button>
+            </form>
+            <p class="muted center mt-16">Already have an account? <a href="{% url 'accounts:login' %}">Log in</a></p>
+        </div>
+    </div>
+</section>
+{% endblock %}

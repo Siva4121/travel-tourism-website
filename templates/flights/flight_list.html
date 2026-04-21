@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Flights – TravelIndia Tourism{% endblock %}
+{% block content %}
+<section class="page-hero page-hero-sm">
+    <div class="container">
+        <span class="eyebrow">Flights</span>
+        <h1>Find your next flight</h1>
+        <p>Search and book verified flights across India and international destinations.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <form class="filter-bar" method="get">
+            <input type="text" name="origin" value="{{ origin }}" placeholder="From (e.g. Delhi)">
+            <input type="text" name="destination" value="{{ destination }}" placeholder="To (e.g. Goa)">
+            <input type="text" name="q" value="{{ q }}" placeholder="Airline / flight no.">
+            <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+        </form>
+
+        <div class="cards-grid">
+            {% for f in flights %}
+                <article class="card flight-card">
+                    <div class="card-body">
+                        <div class="flight-top">
+                            <span class="pill">{{ f.get_travel_class_display }}</span>
+                            <span class="muted">Seats left: {{ f.seats_available }}</span>
+                        </div>
+                        <h4>{{ f.airline }} <small>· {{ f.flight_number }}</small></h4>
+                        <div class="flight-route">
+                            <div><strong>{{ f.origin }}</strong><span>{{ f.departure|date:"d M, H:i" }}</span></div>
+                            <div class="arrow"><i class="fa-solid fa-plane"></i></div>
+                            <div><strong>{{ f.destination }}</strong><span>{{ f.arrival|date:"d M, H:i" }}</span></div>
+                        </div>
+                        <div class="card-foot">
+                            <span class="price">₹{{ f.price|floatformat:0 }}<small>/ person</small></span>
+                            <div class="row-gap-8">
+                                <a href="{% url 'flights:detail' f.pk %}" class="btn btn-outline btn-sm">Details</a>
+                                <a href="{% url 'bookings:book_flight' f.pk %}" class="btn btn-primary btn-sm">Book</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <p class="muted">No flights match your filters.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

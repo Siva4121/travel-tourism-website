@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Book Flight – {{ flight.flight_number }}{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container two-col">
+        <form method="post" class="card pad">
+            {% csrf_token %}
+            <h2>Book flight</h2>
+            <p class="muted">{{ flight.airline }} {{ flight.flight_number }} · {{ flight.origin }} → {{ flight.destination }}</p>
+            {% for field in form %}
+                <label>{{ field.label }}{{ field }}{% if field.errors %}<div class="field-error">{{ field.errors|join:", " }}</div>{% endif %}</label>
+            {% endfor %}
+            <button class="btn btn-primary btn-lg btn-block">Confirm booking</button>
+        </form>
+        <aside class="card pad">
+            <h4>Fare summary</h4>
+            <p><span class="muted">Base fare per person</span><br><strong>₹{{ flight.price|floatformat:0 }}</strong></p>
+            <p class="muted">Taxes &amp; fees included.</p>
+            <p class="muted">Seats available: <strong>{{ flight.seats_available }}</strong></p>
+        </aside>
+    </div>
+</section>
+{% endblock %}

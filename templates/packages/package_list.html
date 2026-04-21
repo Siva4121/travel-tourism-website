@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Tour Packages – TravelIndia Tourism{% endblock %}
+{% block content %}
+<section class="page-hero page-hero-sm">
+    <div class="container">
+        <span class="eyebrow">Tour Packages</span>
+        <h1>Holidays designed for you</h1>
+        <p>Pick a curated package or ask our chatbot for recommendations.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <form class="filter-bar" method="get">
+            <input type="text" name="destination" value="{{ destination }}" placeholder="Destination (e.g. Kerala)">
+            <input type="text" name="q" value="{{ q }}" placeholder="Search by theme / name">
+            <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+        </form>
+
+        <div class="cards-grid">
+            {% for p in packages %}
+                <article class="card">
+                    <div class="card-media" style="background-image: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.25)), url('{% if p.image %}{{ p.image.url }}{% else %}https://source.unsplash.com/600x400/?{{ p.destination.name|default:p.name|urlencode }},travel{% endif %}')">
+                        <span class="badge">{{ p.duration_label }}</span>
+                        {% if p.is_featured %}<span class="badge featured">Featured</span>{% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h4>{{ p.name }}</h4>
+                        <p class="muted"><i class="fa-solid fa-location-dot"></i> {{ p.destination.name|default:p.city|default:"Multi-city" }}</p>
+                        <p class="clamp-2">{{ p.description|default:"Handpicked itinerary with stays, sightseeing, and transfers." }}</p>
+                        <div class="card-foot">
+                            <span class="price">₹{{ p.price|floatformat:0 }}<small>/ person</small></span>
+                            <div class="row-gap-8">
+                                <a href="{% url 'packages:detail' p.pk %}" class="btn btn-outline btn-sm">Details</a>
+                                <a href="{% url 'bookings:book_package' p.pk %}" class="btn btn-primary btn-sm">Book</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <p class="muted">No packages match your filters.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
