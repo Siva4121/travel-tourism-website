@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Attractions & Tours – Trip Clone{% endblock %}
+{% block content %}
+<section class="page-hero page-hero-sm">
+    <div class="container">
+        <span class="eyebrow">Attractions & Tours</span>
+        <h1>Unforgettable things to do</h1>
+        <p>Book tickets, guided tours and unique experiences at top destinations worldwide.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <form class="filter-bar" method="get">
+            <input type="text" name="city" value="{{ city }}" placeholder="City (e.g. Jaipur)">
+            <select name="category">
+                <option value="">All categories</option>
+                {% for key, label in categories %}
+                    <option value="{{ key }}" {% if category == key %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="q" value="{{ q }}" placeholder="Search attractions">
+            <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+        </form>
+
+        <div class="cards-grid">
+            {% for a in attractions %}
+                <article class="card">
+                    <div class="card-media" style="background-image: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.35)), url('{% if a.image %}{{ a.image.url }}{% else %}https://source.unsplash.com/600x400/?{{ a.city|urlencode }},{{ a.category }}{% endif %}')">
+                        <span class="badge">{{ a.get_category_display }}</span>
+                        {% if a.is_featured %}<span class="badge badge-accent">Featured</span>{% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h4>{{ a.name }}</h4>
+                        <p class="muted"><i class="fa-solid fa-location-dot"></i> {{ a.city }}, {{ a.country }}</p>
+                        <p class="clamp-2">{{ a.description|default:"A must-visit experience with memorable moments." }}</p>
+                        <div class="chips">
+                            <span class="chip"><i class="fa-solid fa-star"></i> {{ a.rating }} ({{ a.reviews_count }})</span>
+                            <span class="chip"><i class="fa-regular fa-clock"></i> {{ a.duration_hours }}h</span>
+                        </div>
+                        <div class="card-foot">
+                            <span class="price">₹{{ a.price|floatformat:0 }}<small>/ person</small></span>
+                            <a href="{% url 'attractions:detail' a.pk %}" class="btn btn-primary btn-sm">Details</a>
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <p class="muted">No attractions match your filters.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

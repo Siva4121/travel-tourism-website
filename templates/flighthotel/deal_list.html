@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Flight + Hotel Deals – Trip Clone{% endblock %}
+{% block content %}
+<section class="page-hero page-hero-sm">
+    <div class="container">
+        <span class="eyebrow">Flight + Hotel</span>
+        <h1>Bundle and save more</h1>
+        <p>Curated flight + hotel combos with lower total price than booking separately.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <form class="filter-bar" method="get">
+            <input type="text" name="city" value="{{ city }}" placeholder="Destination city">
+            <input type="text" name="q" value="{{ q }}" placeholder="Search deals">
+            <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+        </form>
+
+        <div class="cards-grid">
+            {% for d in deals %}
+                <article class="card">
+                    <div class="card-media" style="background-image: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.35)), url('{% if d.image %}{{ d.image.url }}{% else %}https://source.unsplash.com/600x400/?{{ d.destination_city|urlencode }},travel{% endif %}')">
+                        {% if d.savings %}<span class="badge badge-accent">Save ₹{{ d.savings|floatformat:0 }}</span>{% endif %}
+                        {% if d.is_featured %}<span class="badge">Featured</span>{% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h4>{{ d.name }}</h4>
+                        <p class="muted"><i class="fa-solid fa-location-dot"></i> {{ d.destination_city }}</p>
+                        <div class="chips">
+                            <span class="chip"><i class="fa-solid fa-plane"></i> Flight{% if d.flight %} · {{ d.flight.airline }}{% endif %}</span>
+                            <span class="chip"><i class="fa-solid fa-hotel"></i> Hotel{% if d.hotel %} · {{ d.hotel.name }}{% endif %}</span>
+                            <span class="chip"><i class="fa-regular fa-moon"></i> {{ d.nights }} nights</span>
+                            <span class="chip"><i class="fa-solid fa-users"></i> {{ d.travelers }} travelers</span>
+                        </div>
+                        <div class="card-foot">
+                            <span class="price">₹{{ d.combined_price|floatformat:0 }}<small>/ total</small></span>
+                            <a href="{% url 'flighthotel:detail' d.pk %}" class="btn btn-primary btn-sm">Details</a>
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <p class="muted">No flight + hotel deals match your filters.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

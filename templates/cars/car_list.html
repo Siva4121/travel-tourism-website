@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Cars – Trip Clone{% endblock %}
+{% block content %}
+<section class="page-hero page-hero-sm">
+    <div class="container">
+        <span class="eyebrow">Cars</span>
+        <h1>Rent a car for your trip</h1>
+        <p>Choose from economy hatchbacks to premium SUVs. Unlimited kilometers on select rentals.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <form class="filter-bar" method="get">
+            <input type="text" name="location" value="{{ location }}" placeholder="Pickup location (e.g. Mumbai Airport)">
+            <select name="category">
+                <option value="">All categories</option>
+                {% for key, label in categories %}
+                    <option value="{{ key }}" {% if category == key %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="q" value="{{ q }}" placeholder="Car name / brand">
+            <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+        </form>
+
+        <div class="cards-grid">
+            {% for c in cars %}
+                <article class="card">
+                    <div class="card-media" style="background-image: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.25)), url('{% if c.image %}{{ c.image.url }}{% else %}https://source.unsplash.com/600x400/?{{ c.category|urlencode }},car{% endif %}')">
+                        <span class="badge">{{ c.get_category_display }}</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>{{ c.name }}</h4>
+                        <p class="muted"><i class="fa-solid fa-location-dot"></i> {{ c.pickup_location }}</p>
+                        <div class="chips">
+                            <span class="chip"><i class="fa-solid fa-users"></i> {{ c.seats }} seats</span>
+                            <span class="chip"><i class="fa-solid fa-gears"></i> {{ c.get_transmission_display }}</span>
+                            <span class="chip"><i class="fa-solid fa-gas-pump"></i> {{ c.get_fuel_type_display }}</span>
+                            {% if c.air_conditioning %}<span class="chip"><i class="fa-solid fa-snowflake"></i> AC</span>{% endif %}
+                        </div>
+                        <div class="card-foot">
+                            <span class="price">₹{{ c.price_per_day|floatformat:0 }}<small>/ day</small></span>
+                            <a href="{% url 'cars:detail' c.pk %}" class="btn btn-primary btn-sm">Details</a>
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <p class="muted">No cars match your filters.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -10,6 +10,10 @@ urlpatterns = [
     path('flights/', include(('flights.urls', 'flights'), namespace='flights')),
     path('hotels/', include(('hotels.urls', 'hotels'), namespace='hotels')),
     path('packages/', include(('packages.urls', 'packages'), namespace='packages')),
+    path('trains/', include(('trains.urls', 'trains'), namespace='trains')),
+    path('cars/', include(('cars.urls', 'cars'), namespace='cars')),
+    path('attractions/', include(('attractions.urls', 'attractions'), namespace='attractions')),
+    path('flight-hotel/', include(('flighthotel.urls', 'flighthotel'), namespace='flighthotel')),
     path('bookings/', include(('bookings.urls', 'bookings'), namespace='bookings')),
     path('chatbot/', include(('chatbot.urls', 'chatbot'), namespace='chatbot')),
 ]

@@ -1,6 +1,6 @@
-# Travel India Tourism – Django Website
+# Trip Clone – Django Travel & Tourism Website
 
-A full-featured Travel & Tourism website inspired by [travelindiatourism.com](https://travelindiatourism.com/), built with **Python (Django)** and **SQLite**. Users can browse curated tour packages, book flights, reserve hotels, and interact with a built-in chatbot for instant recommendations. Admins manage everything from the Django admin dashboard.
+A Django-based travel & tourism website inspired by [trip.com](https://in.trip.com/), built with **Python (Django)** and **SQLite**. Users can search and browse across **six service categories** — Hotels & Homes, Flights, Flight + Hotel combos, Trains, Cars, and Attractions & Tours — plus full tour packages. Admins manage every category from the Django admin dashboard (add / edit / delete).
 
 ![Hero](https://images.unsplash.com/photo-1506059612708-99d6c258160e?auto=format&fit=crop&w=1400&q=80)
 
@@ -18,10 +18,14 @@ A full-featured Travel & Tourism website inspired by [travelindiatourism.com](ht
 - **Chatbot Assistant** – Keyword-based bot for queries like *"show flights"*, *"list hotels"*, *"view tourism packages"*, *"my bookings"*. Floating widget on every page + a full chat page.
 
 ### Admin Module
-- **Django Admin Dashboard** – Single sign-on admin with:
-  - Add / edit / delete **Flights** (airline, route, schedule, class, price, seats)
-  - Add / edit / delete **Hotels** (city, star rating, amenities, price, rooms)
-  - Add / edit / delete **Tour Packages** (destination, duration, itinerary, featured flag)
+- **Django Admin Dashboard** – Single sign-on admin with add / edit / delete for every service category:
+  - **Hotels & Homes** (city, star rating, amenities, price, rooms)
+  - **Flights** (airline, route, schedule, class, price, seats)
+  - **Flight + Hotel** deals (bundled flight + hotel with savings)
+  - **Trains** (name, number, route, class, schedule, price, seats)
+  - **Cars** (name, category, pickup location, transmission, fuel, seats, price/day)
+  - **Attractions & Tours** (name, city, category, duration, price, rating, highlights)
+  - **Tour Packages** (destination, duration, itinerary, featured flag)
   - View **All Bookings** (type, traveler, status, total amount, dates)
   - View **Registered Users** and their profiles
 - Filtering, searching, and date hierarchy on all admin lists.
@@ -33,7 +37,7 @@ A full-featured Travel & Tourism website inspired by [travelindiatourism.com](ht
 | Layer        | Technology                          |
 | ------------ | ----------------------------------- |
 | Framework    | Django 5.x                          |
-| Database     | SQLite3                             |
+| Database     | SQLite3 (db.sqlite3)                |
 | Templating   | Django Templates                    |
 | Frontend     | Vanilla HTML/CSS/JS, Font Awesome, Google Fonts |
 | Auth         | Django built-in auth                |

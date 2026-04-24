@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}{{ deal.name }} – Flight + Hotel Deal{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container two-col">
+        <div class="card pad">
+            <h2>{{ deal.name }}</h2>
+            <p class="muted"><i class="fa-solid fa-location-dot"></i> Destination: {{ deal.destination_city }}</p>
+            <p>{{ deal.description|default:"A great combined flight + hotel package curated for value travel." }}</p>
+            <h4>Your flight</h4>
+            {% if deal.flight %}
+                <p>
+                    <strong>{{ deal.flight.airline }}</strong> · {{ deal.flight.flight_number }}<br>
+                    {{ deal.flight.origin }} → {{ deal.flight.destination }}<br>
+                    <span class="muted">{{ deal.flight.departure|date:"d M Y, H:i" }} – {{ deal.flight.arrival|date:"d M Y, H:i" }}</span>
+                </p>
+            {% else %}
+                <p class="muted">Flight details will be shared after booking.</p>
+            {% endif %}
+            <h4>Your hotel</h4>
+            {% if deal.hotel %}
+                <p>
+                    <strong>{{ deal.hotel.name }}</strong> ({{ deal.hotel.star_rating }}★)<br>
+                    {{ deal.hotel.address|default:deal.hotel.city }}, {{ deal.hotel.country }}<br>
+                    <span class="muted">{{ deal.nights }} nights stay for {{ deal.travelers }} travelers</span>
+                </p>
+            {% else %}
+                <p class="muted">Hotel details will be shared after booking.</p>
+            {% endif %}
+            {% if deal.inclusion_list %}
+                <h4>Inclusions</h4>
+                <div class="chips">
+                    {% for i in deal.inclusion_list %}<span class="chip"><i class="fa-solid fa-check"></i> {{ i }}</span>{% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <aside class="card pad sticky">
+            <span class="muted">Bundle price</span>
+            <div class="price big">₹{{ deal.combined_price|floatformat:0 }} <small>/ total</small></div>
+            {% if deal.savings %}<p class="muted">You save <strong>₹{{ deal.savings|floatformat:0 }}</strong> vs booking separately.</p>{% endif %}
+            <a href="#" class="btn btn-primary btn-block btn-lg">Book this deal</a>
+            <p class="muted center">Free cancellation on most combos. Terms apply.</p>
+        </aside>
+    </div>
+</section>
+{% endblock %}

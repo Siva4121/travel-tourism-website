@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'flights',
     'hotels',
     'packages',
+    'trains',
+    'cars',
+    'attractions',
+    'flighthotel',
     'bookings',
     'chatbot',
 ]
