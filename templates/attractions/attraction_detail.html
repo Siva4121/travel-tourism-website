@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}{{ attraction.name }} – Attraction{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container two-col">
+        <div class="card pad">
+            <h2>{{ attraction.name }}</h2>
+            <p class="muted"><i class="fa-solid fa-location-dot"></i> {{ attraction.city }}, {{ attraction.country }}</p>
+            <p>
+                <span class="pill">{{ attraction.get_category_display }}</span>
+                <span class="pill"><i class="fa-solid fa-star"></i> {{ attraction.rating }} ({{ attraction.reviews_count }} reviews)</span>
+                <span class="pill"><i class="fa-regular fa-clock"></i> {{ attraction.duration_hours }} hours</span>
+            </p>
+            <p>{{ attraction.description|default:"A must-visit experience at this destination." }}</p>
+            {% if attraction.highlight_list %}
+                <h4>Highlights</h4>
+                <div class="chips">
+                    {% for h in attraction.highlight_list %}<span class="chip"><i class="fa-solid fa-check"></i> {{ h }}</span>{% endfor %}
+                </div>
+            {% endif %}
+            <p class="muted">Slots available: <strong>{{ attraction.slots_available }}</strong></p>
+        </div>
+        <aside class="card pad sticky">
+            <span class="muted">From</span>
+            <div class="price big">₹{{ attraction.price|floatformat:0 }} <small>/ person</small></div>
+            <a href="#" class="btn btn-primary btn-block btn-lg">Book now</a>
+            <p class="muted center">Instant confirmation. Mobile ticket accepted.</p>
+        </aside>
+    </div>
+</section>
+{% endblock %}

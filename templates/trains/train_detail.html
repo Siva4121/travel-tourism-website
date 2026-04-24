@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}{{ train.name }} – Train Details{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container two-col">
+        <div class="card pad">
+            <h2>{{ train.name }} <small class="muted">· {{ train.number }}</small></h2>
+            <p><span class="pill">{{ train.get_travel_class_display }}</span></p>
+            <div class="flight-route">
+                <div><strong>{{ train.origin }}</strong><span>{{ train.departure|date:"d M Y, H:i" }}</span></div>
+                <div class="arrow"><i class="fa-solid fa-train"></i></div>
+                <div><strong>{{ train.destination }}</strong><span>{{ train.arrival|date:"d M Y, H:i" }}</span></div>
+            </div>
+            <p class="muted"><i class="fa-regular fa-clock"></i> Duration: {{ train.duration_hours }} hours</p>
+            <p class="muted">Seats available: <strong>{{ train.seats_available }}</strong></p>
+        </div>
+        <aside class="card pad sticky">
+            <span class="muted">Fare from</span>
+            <div class="price big">₹{{ train.price|floatformat:0 }} <small>/ person</small></div>
+            <a href="#" class="btn btn-primary btn-block btn-lg">Reserve seat</a>
+            <p class="muted center">Confirmation via e-ticket. Cancellation rules as per IRCTC norms.</p>
+        </aside>
+    </div>
+</section>
+{% endblock %}

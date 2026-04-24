@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Trains – Trip Clone{% endblock %}
+{% block content %}
+<section class="page-hero page-hero-sm">
+    <div class="container">
+        <span class="eyebrow">Trains</span>
+        <h1>Book train tickets with ease</h1>
+        <p>Search train routes, check schedules and reserve seats across India.</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <form class="filter-bar" method="get">
+            <input type="text" name="origin" value="{{ origin }}" placeholder="From station (e.g. New Delhi)">
+            <input type="text" name="destination" value="{{ destination }}" placeholder="To station (e.g. Mumbai)">
+            <input type="text" name="q" value="{{ q }}" placeholder="Train name / number">
+            <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+        </form>
+
+        <div class="cards-grid">
+            {% for t in trains %}
+                <article class="card flight-card">
+                    <div class="card-body">
+                        <div class="flight-top">
+                            <span class="pill">{{ t.get_travel_class_display }}</span>
+                            <span class="muted">Seats left: {{ t.seats_available }}</span>
+                        </div>
+                        <h4>{{ t.name }} <small>· {{ t.number }}</small></h4>
+                        <div class="flight-route">
+                            <div><strong>{{ t.origin }}</strong><span>{{ t.departure|date:"d M, H:i" }}</span></div>
+                            <div class="arrow"><i class="fa-solid fa-train"></i></div>
+                            <div><strong>{{ t.destination }}</strong><span>{{ t.arrival|date:"d M, H:i" }}</span></div>
+                        </div>
+                        <p class="muted"><i class="fa-regular fa-clock"></i> {{ t.duration_hours }} hours</p>
+                        <div class="card-foot">
+                            <span class="price">₹{{ t.price|floatformat:0 }}<small>/ person</small></span>
+                            <a href="{% url 'trains:detail' t.pk %}" class="btn btn-primary btn-sm">Details</a>
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <p class="muted">No trains match your filters.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

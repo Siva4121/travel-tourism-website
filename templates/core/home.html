@@ -1,52 +1,263 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}TravelIndia Tourism – Discover Incredible Journeys{% endblock %}
+{% block title %}Trip Clone – Hotels, Flights, Trains, Cars & Attractions{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <div class="hero-bg"></div>
-    <div class="container hero-inner">
-        <div class="hero-text">
-            <span class="eyebrow">Explore Incredible India &amp; Beyond</span>
-            <h1 class="display">Plan Unforgettable <span>Journeys</span> with Confidence</h1>
-            <p class="lead">Curated tour packages, seamless flight &amp; hotel bookings, and a 24×7 travel chatbot to plan your perfect itinerary.</p>
-            <div class="hero-actions">
-                <a href="{% url 'packages:list' %}" class="btn btn-primary btn-lg"><i class="fa-solid fa-suitcase-rolling"></i> Explore Packages</a>
-                <a href="{% url 'chatbot:chat' %}" class="btn btn-ghost btn-lg"><i class="fa-solid fa-robot"></i> Talk to Chatbot</a>
-            </div>
-            <div class="hero-stats">
-                <div><strong>50+</strong><span>Destinations</span></div>
-                <div><strong>1,200+</strong><span>Happy Travelers</span></div>
-                <div><strong>4.9★</strong><span>Average Rating</span></div>
-            </div>
+<section class="trip-hero">
+    <div class="container">
+        <h1>Go beyond your imagination</h1>
+        <p class="lead">Hotels & Homes · Flights · Flight + Hotel · Trains · Cars · Attractions & Tours — all in one place.</p>
+
+        <div class="service-tabs" role="tablist">
+            <button class="service-tab active" data-panel="hotels" role="tab"><i class="fa-solid fa-hotel"></i> Hotels & Homes</button>
+            <button class="service-tab" data-panel="flights" role="tab"><i class="fa-solid fa-plane"></i> Flights</button>
+            <button class="service-tab" data-panel="flighthotel" role="tab"><i class="fa-solid fa-suitcase-rolling"></i> Flight + Hotel</button>
+            <button class="service-tab" data-panel="trains" role="tab"><i class="fa-solid fa-train"></i> Trains</button>
+            <button class="service-tab" data-panel="cars" role="tab"><i class="fa-solid fa-car"></i> Cars</button>
+            <button class="service-tab" data-panel="attractions" role="tab"><i class="fa-solid fa-camera-retro"></i> Attractions & Tours</button>
         </div>
-        <form class="search-card" action="{% url 'packages:list' %}" method="get">
-            <h3><i class="fa-solid fa-magnifying-glass"></i> Find your next trip</h3>
-            <label>
-                <span>Destination</span>
-                <input type="text" name="destination" placeholder="e.g. Kerala, Goa, Rajasthan">
-            </label>
-            <label>
-                <span>Search</span>
-                <input type="text" name="q" placeholder="Package / theme / city">
-            </label>
-            <button type="submit" class="btn btn-primary btn-block">Search Packages</button>
-            <div class="search-quick">
-                <a href="{% url 'flights:list' %}"><i class="fa-solid fa-plane"></i> Flights</a>
-                <a href="{% url 'hotels:list' %}"><i class="fa-solid fa-hotel"></i> Hotels</a>
-                <a href="{% url 'packages:list' %}"><i class="fa-solid fa-umbrella-beach"></i> Packages</a>
-            </div>
-        </form>
+
+        <div class="service-search-card">
+            <form class="service-panel active" id="panel-hotels" action="{% url 'hotels:list' %}" method="get">
+                <div class="search-grid">
+                    <label>City or Hotel<input type="text" name="city" placeholder="e.g. Goa"></label>
+                    <label>Check-in<input type="date" name="checkin"></label>
+                    <label>Check-out<input type="date" name="checkout"></label>
+                    <label>Guests
+                        <select name="guests">
+                            <option>1 Guest</option>
+                            <option selected>2 Guests</option>
+                            <option>3 Guests</option>
+                            <option>4 Guests</option>
+                        </select>
+                    </label>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+
+            <form class="service-panel" id="panel-flights" action="{% url 'flights:list' %}" method="get">
+                <div class="search-grid">
+                    <label>From<input type="text" name="origin" placeholder="e.g. Delhi"></label>
+                    <label>To<input type="text" name="destination" placeholder="e.g. Goa"></label>
+                    <label>Departure<input type="date" name="departure"></label>
+                    <label>Passengers
+                        <select name="passengers">
+                            <option selected>1 Adult</option>
+                            <option>2 Adults</option>
+                            <option>2 Adults, 1 Child</option>
+                            <option>Family (4)</option>
+                        </select>
+                    </label>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+
+            <form class="service-panel" id="panel-flighthotel" action="{% url 'flighthotel:list' %}" method="get">
+                <div class="search-grid cols-3">
+                    <label>Destination city<input type="text" name="city" placeholder="e.g. Goa"></label>
+                    <label>Check-in<input type="date" name="checkin"></label>
+                    <label>Nights
+                        <select name="nights">
+                            <option>2 nights</option>
+                            <option selected>3 nights</option>
+                            <option>4 nights</option>
+                            <option>5 nights</option>
+                            <option>7 nights</option>
+                        </select>
+                    </label>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+
+            <form class="service-panel" id="panel-trains" action="{% url 'trains:list' %}" method="get">
+                <div class="search-grid">
+                    <label>From station<input type="text" name="origin" placeholder="e.g. New Delhi"></label>
+                    <label>To station<input type="text" name="destination" placeholder="e.g. Mumbai"></label>
+                    <label>Journey date<input type="date" name="date"></label>
+                    <label>Class
+                        <select name="class">
+                            <option value="">Any class</option>
+                            <option value="SL">Sleeper</option>
+                            <option value="3A">AC 3-Tier</option>
+                            <option value="2A">AC 2-Tier</option>
+                            <option value="1A">AC First</option>
+                        </select>
+                    </label>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+
+            <form class="service-panel" id="panel-cars" action="{% url 'cars:list' %}" method="get">
+                <div class="search-grid">
+                    <label>Pickup location<input type="text" name="location" placeholder="e.g. Mumbai Airport"></label>
+                    <label>Pickup date<input type="date" name="pickup"></label>
+                    <label>Return date<input type="date" name="return"></label>
+                    <label>Category
+                        <select name="category">
+                            <option value="">Any</option>
+                            <option value="economy">Economy</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="suv">SUV</option>
+                            <option value="luxury">Luxury</option>
+                        </select>
+                    </label>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+
+            <form class="service-panel" id="panel-attractions" action="{% url 'attractions:list' %}" method="get">
+                <div class="search-grid cols-3">
+                    <label>City<input type="text" name="city" placeholder="e.g. Jaipur"></label>
+                    <label>Keyword<input type="text" name="q" placeholder="e.g. palace, cruise, safari"></label>
+                    <label>Category
+                        <select name="category">
+                            <option value="">All</option>
+                            <option value="landmark">Landmark</option>
+                            <option value="tour">Guided Tour</option>
+                            <option value="adventure">Adventure</option>
+                            <option value="cruise">Cruise</option>
+                            <option value="experience">Experience</option>
+                        </select>
+                    </label>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
     </div>
 </section>
 
-<section class="section features">
-    <div class="container features-grid">
-        <div class="feature"><i class="fa-solid fa-shield-heart"></i><h4>Trusted Bookings</h4><p>Verified hotels, flights, and packages with secure reservations.</p></div>
-        <div class="feature"><i class="fa-solid fa-wand-magic-sparkles"></i><h4>Curated Experiences</h4><p>Hand-picked itineraries designed by local travel experts.</p></div>
-        <div class="feature"><i class="fa-solid fa-comments"></i><h4>AI Travel Chatbot</h4><p>Ask "show flights" or "list hotels" for instant recommendations.</p></div>
-        <div class="feature"><i class="fa-solid fa-headset"></i><h4>24×7 Support</h4><p>We're with you before, during, and after your trip.</p></div>
+<section>
+    <div class="container perks-bar">
+        <div><i class="fa-solid fa-shield-heart"></i> Secure, verified listings</div>
+        <div><i class="fa-solid fa-wallet"></i> Best-price guarantee</div>
+        <div><i class="fa-solid fa-headset"></i> 24×7 customer support</div>
+        <div><i class="fa-solid fa-mobile-screen"></i> Instant mobile ticket</div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head left">
+            <span class="eyebrow">Flight + Hotel</span>
+            <h2>Bundle and save</h2>
+            <p class="muted">Hand-picked combos with guaranteed lower prices than booking separately.</p>
+        </div>
+        <div class="deals-row">
+            {% for d in featured_deals %}
+                <a href="{% url 'flighthotel:detail' d.pk %}" class="deal-card">
+                    <div class="deal-media" style="background-image: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.35)), url('{% if d.image %}{{ d.image.url }}{% else %}https://source.unsplash.com/600x400/?{{ d.destination_city|urlencode }},travel{% endif %}')">
+                        {% if d.savings %}<span class="badge badge-accent">Save ₹{{ d.savings|floatformat:0 }}</span>{% endif %}
+                    </div>
+                    <div class="deal-body">
+                        <h4>{{ d.name }}</h4>
+                        <p>{{ d.destination_city }} · {{ d.nights }} nights</p>
+                        <span class="deal-price">₹{{ d.combined_price|floatformat:0 }}</span>
+                    </div>
+                </a>
+            {% empty %}
+                <p class="muted">No flight + hotel deals yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section bg-soft">
+    <div class="container">
+        <div class="section-head left">
+            <span class="eyebrow">Top Hotels</span>
+            <h2>Stays travelers love</h2>
+            <p class="muted">From boutique beach resorts to 5-star city hotels.</p>
+        </div>
+        <div class="deals-row">
+            {% for h in top_hotels|slice:":4" %}
+                <a href="{% url 'hotels:detail' h.pk %}" class="deal-card">
+                    <div class="deal-media" style="background-image: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.25)), url('{% if h.image %}{{ h.image.url }}{% else %}https://source.unsplash.com/600x400/?{{ h.city|urlencode }},hotel{% endif %}')">
+                        <span class="badge">{{ h.star_rating }}★</span>
+                    </div>
+                    <div class="deal-body">
+                        <h4>{{ h.name }}</h4>
+                        <p>{{ h.city }}, {{ h.country }}</p>
+                        <span class="deal-price">₹{{ h.price_per_night|floatformat:0 }} <small class="muted">/ night</small></span>
+                    </div>
+                </a>
+            {% empty %}
+                <p class="muted">No hotels yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head left">
+            <span class="eyebrow">Attractions & Tours</span>
+            <h2>Unforgettable things to do</h2>
+            <p class="muted">Curated experiences, guided tours and skip-the-line tickets.</p>
+        </div>
+        <div class="deals-row">
+            {% for a in featured_attractions %}
+                <a href="{% url 'attractions:detail' a.pk %}" class="deal-card">
+                    <div class="deal-media" style="background-image: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.35)), url('{% if a.image %}{{ a.image.url }}{% else %}https://source.unsplash.com/600x400/?{{ a.city|urlencode }},{{ a.category }}{% endif %}')">
+                        <span class="badge">{{ a.get_category_display }}</span>
+                    </div>
+                    <div class="deal-body">
+                        <h4>{{ a.name }}</h4>
+                        <p>{{ a.city }} · ★ {{ a.rating }}</p>
+                        <span class="deal-price">₹{{ a.price|floatformat:0 }} <small class="muted">/ person</small></span>
+                    </div>
+                </a>
+            {% empty %}
+                <p class="muted">No attractions yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section bg-soft">
+    <div class="container">
+        <div class="two-col">
+            <div>
+                <div class="section-head left">
+                    <span class="eyebrow">Trains</span>
+                    <h2>Popular train routes</h2>
+                </div>
+                <div class="mini-list">
+                    {% for t in upcoming_trains %}
+                        <a href="{% url 'trains:detail' t.pk %}" class="mini-row">
+                            <div class="mini-icon"><i class="fa-solid fa-train"></i></div>
+                            <div class="mini-meta">
+                                <strong>{{ t.name }} · {{ t.number }}</strong>
+                                <span>{{ t.origin }} → {{ t.destination }} · {{ t.departure|date:"d M, H:i" }}</span>
+                            </div>
+                            <span class="mini-price">₹{{ t.price|floatformat:0 }}</span>
+                        </a>
+                    {% empty %}
+                        <p class="muted">No trains yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>
+                <div class="section-head left">
+                    <span class="eyebrow">Cars</span>
+                    <h2>Rent a car</h2>
+                </div>
+                <div class="mini-list">
+                    {% for c in featured_cars %}
+                        <a href="{% url 'cars:detail' c.pk %}" class="mini-row">
+                            <div class="mini-icon"><i class="fa-solid fa-car"></i></div>
+                            <div class="mini-meta">
+                                <strong>{{ c.name }}</strong>
+                                <span>{{ c.pickup_location }} · {{ c.get_category_display }} · {{ c.seats }} seats</span>
+                            </div>
+                            <span class="mini-price">₹{{ c.price_per_day|floatformat:0 }}/day</span>
+                        </a>
+                    {% empty %}
+                        <p class="muted">No cars yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -103,79 +314,6 @@
     </div>
 </section>
 
-<section class="section">
-    <div class="container">
-        <div class="two-col">
-            <div>
-                <div class="section-head left">
-                    <span class="eyebrow">Stay &amp; Fly</span>
-                    <h2>Top hotels for your stay</h2>
-                </div>
-                <div class="mini-list">
-                    {% for h in top_hotels %}
-                        <a href="{% url 'hotels:detail' h.pk %}" class="mini-row">
-                            <div class="mini-icon"><i class="fa-solid fa-hotel"></i></div>
-                            <div class="mini-meta">
-                                <strong>{{ h.name }}</strong>
-                                <span>{{ h.city }} · {{ h.star_rating }}★</span>
-                            </div>
-                            <span class="mini-price">₹{{ h.price_per_night|floatformat:0 }}</span>
-                        </a>
-                    {% empty %}
-                        <p class="muted">No hotels yet.</p>
-                    {% endfor %}
-                </div>
-            </div>
-            <div>
-                <div class="section-head left">
-                    <span class="eyebrow">Upcoming Flights</span>
-                    <h2>Pick your next flight</h2>
-                </div>
-                <div class="mini-list">
-                    {% for f in upcoming_flights %}
-                        <a href="{% url 'flights:detail' f.pk %}" class="mini-row">
-                            <div class="mini-icon"><i class="fa-solid fa-plane"></i></div>
-                            <div class="mini-meta">
-                                <strong>{{ f.airline }} {{ f.flight_number }}</strong>
-                                <span>{{ f.origin }} → {{ f.destination }} · {{ f.departure|date:"d M, H:i" }}</span>
-                            </div>
-                            <span class="mini-price">₹{{ f.price|floatformat:0 }}</span>
-                        </a>
-                    {% empty %}
-                        <p class="muted">No flights yet.</p>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="section bg-soft">
-    <div class="container">
-        <div class="section-head">
-            <span class="eyebrow">What travelers say</span>
-            <h2>Loved by thousands of happy travelers</h2>
-        </div>
-        <div class="testimonials">
-            <div class="testimonial">
-                <p>"Our Kerala backwaters trip was magical. Everything from hotels to transfers was seamless."</p>
-                <div class="who"><strong>Ananya Rao</strong><span>Bengaluru</span></div>
-                <div class="stars">★★★★★</div>
-            </div>
-            <div class="testimonial">
-                <p>"The chatbot helped me find affordable flights in seconds. Super handy!"</p>
-                <div class="who"><strong>Rahul Verma</strong><span>Mumbai</span></div>
-                <div class="stars">★★★★★</div>
-            </div>
-            <div class="testimonial">
-                <p>"Great Rajasthan package with luxurious havelis and zero hassle. Highly recommended."</p>
-                <div class="who"><strong>Sneha Iyer</strong><span>Chennai</span></div>
-                <div class="stars">★★★★★</div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <section class="cta-banner">
     <div class="container cta-inner">
         <div>
@@ -189,4 +327,22 @@
         {% endif %}
     </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    var tabs = document.querySelectorAll('.service-tab');
+    var panels = document.querySelectorAll('.service-panel');
+    tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            tabs.forEach(function(t) { t.classList.remove('active'); });
+            panels.forEach(function(p) { p.classList.remove('active'); });
+            tab.classList.add('active');
+            var target = document.getElementById('panel-' + tab.dataset.panel);
+            if (target) target.classList.add('active');
+        });
+    });
+})();
+</script>
 {% endblock %}

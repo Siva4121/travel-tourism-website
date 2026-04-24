@@ -1,9 +1,9 @@
-/* ------------ Travel India Tourism – Main Stylesheet ------------- */
+/* ------------ Trip Clone – Main Stylesheet ------------- */
 :root {
-    --brand: #0ea5a4;
-    --brand-dark: #0b7a78;
-    --brand-light: #d7f5f3;
-    --accent: #f97316;
+    --brand: #287dfa;
+    --brand-dark: #1c5bbd;
+    --brand-light: #e3efff;
+    --accent: #ff7b1a;
     --accent-dark: #c2410c;
     --ink: #0f172a;
     --ink-muted: #475569;
@@ -348,3 +348,72 @@ p { color: var(--ink-muted); }
 
 /* Contact */
 .contact-info i { color: var(--brand); margin-right: 8px; }
+
+/* ============ Trip.com-style hero + service tabs ============ */
+.trip-hero { position: relative; color: white; background:
+    linear-gradient(135deg, #133c82 0%, #287dfa 45%, #39b3ff 100%);
+    padding: 34px 0 0; overflow: hidden; }
+.trip-hero::before { content: ''; position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=75');
+    background-size: cover; background-position: center; opacity: .25; z-index: 0; }
+.trip-hero .container { position: relative; z-index: 1; }
+.trip-hero h1 { color: white; margin: 0 0 8px; font-size: clamp(1.8rem, 3.4vw, 2.6rem); }
+.trip-hero p.lead { color: rgba(255,255,255,.92); margin: 0 0 28px; max-width: 700px; }
+
+.service-tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 0; }
+.service-tab { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px;
+    background: rgba(255,255,255,.12); color: white; border: 0; border-radius: 12px 12px 0 0;
+    font-family: inherit; font-size: .95rem; font-weight: 600; cursor: pointer; transition: all .15s ease; }
+.service-tab i { font-size: 1rem; }
+.service-tab:hover { background: rgba(255,255,255,.22); color: white; }
+.service-tab.active { background: white; color: var(--brand-dark); }
+.service-tab.active:hover { color: var(--brand-dark); }
+
+.service-search-card { background: white; color: var(--ink); border-radius: 0 16px 16px 16px;
+    padding: 20px; box-shadow: var(--shadow-lg); margin-bottom: 40px; }
+.service-panel { display: none; }
+.service-panel.active { display: block; animation: fadeIn .18s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px);} to { opacity: 1; transform: translateY(0);} }
+.search-grid { display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 12px; align-items: end; }
+.search-grid.cols-3 { grid-template-columns: repeat(3, 1fr) auto; }
+.search-grid.cols-5 { grid-template-columns: repeat(5, 1fr) auto; }
+.search-grid label { display: grid; gap: 4px; font-size: .78rem; color: var(--ink-muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.search-grid input, .search-grid select { padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px;
+    font-family: inherit; font-size: 1rem; background: white; color: var(--ink); }
+.search-grid input:focus, .search-grid select:focus { outline: 2px solid var(--brand); outline-offset: 1px; }
+.search-grid .btn { padding: 14px 28px; font-size: 1rem; }
+@media (max-width: 900px) {
+    .search-grid, .search-grid.cols-3, .search-grid.cols-5 { grid-template-columns: 1fr; }
+}
+
+/* Service row under navbar (quick links to each category) */
+.service-row { background: white; border-bottom: 1px solid var(--border); }
+.service-row .container { display: flex; gap: 8px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; }
+.service-row a { display: inline-flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 10px 18px; border-radius: 12px; color: var(--ink-muted); font-size: .85rem; font-weight: 600;
+    white-space: nowrap; transition: all .15s ease; }
+.service-row a:hover, .service-row a.active { background: var(--brand-light); color: var(--brand-dark); }
+.service-row a i { font-size: 1.4rem; color: var(--brand); }
+
+/* Deals-row cards (smaller) */
+.deals-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+@media (max-width: 960px) { .deals-row { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .deals-row { grid-template-columns: 1fr; } }
+.deal-card { background: white; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border);
+    transition: all .2s ease; display: block; color: var(--ink); }
+.deal-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); color: var(--ink); }
+.deal-media { height: 150px; background-size: cover; background-position: center; position: relative; }
+.deal-body { padding: 14px 16px 16px; }
+.deal-body h4 { margin: 0 0 4px; font-size: 1rem; }
+.deal-body p { margin: 0; font-size: .82rem; color: var(--ink-muted); }
+.deal-price { color: var(--accent); font-weight: 700; font-size: 1rem; margin-top: 8px; display: block; }
+
+.badge.badge-accent { background: var(--accent); color: white; }
+
+/* Trust / perks bar */
+.perks-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 28px 0;
+    border-bottom: 1px solid var(--border); }
+.perks-bar div { display: flex; align-items: center; gap: 12px; color: var(--ink-muted); font-size: .9rem; }
+.perks-bar i { color: var(--brand); font-size: 1.5rem; }
+@media (max-width: 800px) { .perks-bar { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .perks-bar { grid-template-columns: 1fr; } }

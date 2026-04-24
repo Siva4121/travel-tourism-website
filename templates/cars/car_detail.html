@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}{{ car.name }} – Car Details{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container two-col">
+        <div class="card pad">
+            <h2>{{ car.name }}</h2>
+            <p class="muted"><i class="fa-solid fa-location-dot"></i> Pickup: {{ car.pickup_location }}{% if car.drop_location %} · Drop: {{ car.drop_location }}{% endif %}</p>
+            <p><span class="pill">{{ car.get_category_display }}</span></p>
+            <div class="chips">
+                <span class="chip"><i class="fa-solid fa-users"></i> {{ car.seats }} seats</span>
+                <span class="chip"><i class="fa-solid fa-suitcase-rolling"></i> {{ car.luggage_capacity }} bags</span>
+                <span class="chip"><i class="fa-solid fa-gears"></i> {{ car.get_transmission_display }}</span>
+                <span class="chip"><i class="fa-solid fa-gas-pump"></i> {{ car.get_fuel_type_display }}</span>
+                {% if car.air_conditioning %}<span class="chip"><i class="fa-solid fa-snowflake"></i> Air conditioning</span>{% endif %}
+            </div>
+            <p>{{ car.description|default:"Comfortable, well-maintained vehicle with professional service." }}</p>
+            <p class="muted">Cars available: <strong>{{ car.cars_available }}</strong></p>
+        </div>
+        <aside class="card pad sticky">
+            <span class="muted">Starting from</span>
+            <div class="price big">₹{{ car.price_per_day|floatformat:0 }} <small>/ day</small></div>
+            <a href="#" class="btn btn-primary btn-block btn-lg">Rent this car</a>
+            <p class="muted center">Free cancellation up to 48 hours before pickup.</p>
+        </aside>
+    </div>
+</section>
+{% endblock %}

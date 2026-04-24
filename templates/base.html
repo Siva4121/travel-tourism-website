@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Travel India Tourism - Discover Incredible Journeys{% endblock %}</title>
-    <meta name="description" content="{% block description %}Plan your perfect trip with Travel India Tourism. Book flights, hotels, and curated tour packages across India and beyond.{% endblock %}">
+    <title>{% block title %}Trip Clone - Hotels, Flights, Trains, Cars & Attractions{% endblock %}</title>
+    <meta name="description" content="{% block description %}Book hotels, flights, flight+hotel combos, trains, cars and attractions across India and beyond with Trip Clone.{% endblock %}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
@@ -16,7 +16,7 @@
         <div class="topbar">
             <div class="container topbar-inner">
                 <span><i class="fa-solid fa-phone"></i> +91 98765 43210</span>
-                <span><i class="fa-solid fa-envelope"></i> hello@travelindia.com</span>
+                <span><i class="fa-solid fa-envelope"></i> hello@tripclone.local</span>
                 <div class="topbar-links">
                     <a href="{% url 'core:about' %}">About</a>
                     <a href="{% url 'core:contact' %}">Contact</a>
@@ -27,16 +27,16 @@
             <div class="container nav-inner">
                 <a href="{% url 'core:home' %}" class="brand">
                     <i class="fa-solid fa-plane-departure"></i>
-                    <span>Travel<strong>India</strong></span>
+                    <span>Trip<strong>Clone</strong></span>
                 </a>
                 <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <ul class="nav-links" id="navLinks">
                     <li><a href="{% url 'core:home' %}">Home</a></li>
-                    <li><a href="{% url 'packages:list' %}">Tour Packages</a></li>
-                    <li><a href="{% url 'flights:list' %}">Flights</a></li>
-                    <li><a href="{% url 'hotels:list' %}">Hotels</a></li>
+                    <li><a href="{% url 'packages:list' %}">Packages</a></li>
+                    <li><a href="{% url 'core:about' %}">About</a></li>
+                    <li><a href="{% url 'core:contact' %}">Contact</a></li>
                     <li><a href="{% url 'chatbot:chat' %}"><i class="fa-solid fa-robot"></i> Chatbot</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'bookings:list' %}">My Bookings</a></li>
@@ -54,6 +54,16 @@
                 </ul>
             </div>
         </nav>
+        <div class="service-row">
+            <div class="container">
+                <a href="{% url 'hotels:list' %}"><i class="fa-solid fa-hotel"></i> Hotels & Homes</a>
+                <a href="{% url 'flights:list' %}"><i class="fa-solid fa-plane"></i> Flights</a>
+                <a href="{% url 'flighthotel:list' %}"><i class="fa-solid fa-suitcase-rolling"></i> Flight + Hotel</a>
+                <a href="{% url 'trains:list' %}"><i class="fa-solid fa-train"></i> Trains</a>
+                <a href="{% url 'cars:list' %}"><i class="fa-solid fa-car"></i> Cars</a>
+                <a href="{% url 'attractions:list' %}"><i class="fa-solid fa-camera-retro"></i> Attractions & Tours</a>
+            </div>
+        </div>
     </header>
 
     {% if messages %}
@@ -76,9 +86,9 @@
             <div>
                 <div class="brand brand-footer">
                     <i class="fa-solid fa-plane-departure"></i>
-                    <span>Travel<strong>India</strong></span>
+                    <span>Trip<strong>Clone</strong></span>
                 </div>
-                <p>Your trusted partner for unforgettable journeys across India and the world. Plan, book, and explore with confidence.</p>
+                <p>Book hotels, flights, trains, cars, attractions and bundled flight + hotel deals — all in one place.</p>
                 <div class="social">
                     <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
@@ -87,12 +97,15 @@
                 </div>
             </div>
             <div>
-                <h4>Explore</h4>
+                <h4>Services</h4>
                 <ul>
-                    <li><a href="{% url 'packages:list' %}">Tour Packages</a></li>
+                    <li><a href="{% url 'hotels:list' %}">Hotels & Homes</a></li>
                     <li><a href="{% url 'flights:list' %}">Flights</a></li>
-                    <li><a href="{% url 'hotels:list' %}">Hotels</a></li>
-                    <li><a href="{% url 'chatbot:chat' %}">Travel Chatbot</a></li>
+                    <li><a href="{% url 'flighthotel:list' %}">Flight + Hotel</a></li>
+                    <li><a href="{% url 'trains:list' %}">Trains</a></li>
+                    <li><a href="{% url 'cars:list' %}">Cars</a></li>
+                    <li><a href="{% url 'attractions:list' %}">Attractions & Tours</a></li>
+                    <li><a href="{% url 'packages:list' %}">Tour Packages</a></li>
                 </ul>
             </div>
             <div>
@@ -108,12 +121,12 @@
                 <h4>Get in touch</h4>
                 <p><i class="fa-solid fa-location-dot"></i> 221B Connaught Place, New Delhi, India</p>
                 <p><i class="fa-solid fa-phone"></i> +91 98765 43210</p>
-                <p><i class="fa-solid fa-envelope"></i> hello@travelindia.com</p>
+                <p><i class="fa-solid fa-envelope"></i> hello@tripclone.local</p>
             </div>
         </div>
         <div class="footer-bottom">
             <div class="container">
-                <span>© {% now "Y" %} TravelIndia Tourism. All rights reserved.</span>
+                <span>© {% now "Y" %} Trip Clone. All rights reserved.</span>
                 <span>Built with Django · SQLite</span>
             </div>
         </div>
